@@ -13,10 +13,29 @@
     <nav>
         <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="#">Planning</a></li>
+            <li><a href=" {{ path('etudiant_planning')  }}">Planning</a></li>
+            <li><a href=" {{ path('etudiant_support')  }}">Support de Cours</a></li>
+            <li><a href="#">Espace de Depot</a></li>
             <li><a href="#">Bulletin</a></li>
+            <li><a href="{{ path('etudiant_discussion')  }}">Discussion</a></li>
         </ul>
     </nav>
-</div>
+    <h4>INFORMATIONS GENERALES</h4>
+    <ul>
+        <li><strong>Matricule</strong> : {{ etudiant.matricule }}</li>
+        <li><strong>Nom</strong> : {{ etudiant.nom }}</li>
+        <li><strong>Prenom</strong> : {{ etudiant.prenom }}</li>
+        <li><strong>Email</strong> : {{ etudiant.email }}</li>
+        <li><strong>Telephone</strong> : {{ etudiant.telephone }}</li>
+        <li><strong>Date De Naissance </strong> : {{ etudiant.dateNaissance | date("m/d/y") }}</li>
+        <li><strong>Lieu De Naissance</strong> : {{ etudiant.lieuNaissance }}</li>
+        <li><strong>Photo</strong> : {{ etudiant.photo }}</li>
+        <li><strong>CIN</strong> : {{ etudiant.cin }}</li>
+        
+    </ul>
+    <h4>NOTES</h4>
+    <h4>ABSENCES</h4>
+    
+    </div>
 
 {% endblock %}
