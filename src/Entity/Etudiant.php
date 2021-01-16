@@ -84,10 +84,22 @@ class Etudiant
      */
     private $absences;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="IdEtudiant")
+     */
+    private $notes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TraveauxRendu::class, mappedBy="idEtudiant")
+     */
+    private $traveauxRendus;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
         $this->absences = new ArrayCollection();
+        $this->notes = new ArrayCollection();
+        $this->traveauxRendus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +293,66 @@ class Etudiant
             // set the owning side to null (unless already changed)
             if ($absence->getIdEtudiant() === $this) {
                 $absence->setIdEtudiant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setIdEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getIdEtudiant() === $this) {
+                $note->setIdEtudiant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TraveauxRendu[]
+     */
+    public function getTraveauxRendus(): Collection
+    {
+        return $this->traveauxRendus;
+    }
+
+    public function addTraveauxRendu(TraveauxRendu $traveauxRendu): self
+    {
+        if (!$this->traveauxRendus->contains($traveauxRendu)) {
+            $this->traveauxRendus[] = $traveauxRendu;
+            $traveauxRendu->setIdEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraveauxRendu(TraveauxRendu $traveauxRendu): self
+    {
+        if ($this->traveauxRendus->removeElement($traveauxRendu)) {
+            // set the owning side to null (unless already changed)
+            if ($traveauxRendu->getIdEtudiant() === $this) {
+                $traveauxRendu->setIdEtudiant(null);
             }
         }
 

@@ -75,11 +75,35 @@ class Matiere
      */
     private $seances;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="idMatiere")
+     */
+    private $notes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DepotTraveaux::class, mappedBy="idMatiere")
+     */
+    private $depotTraveauxes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SupportCours::class, mappedBy="idMatiere")
+     */
+    private $supportCours;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Discussion::class, mappedBy="idMatiere")
+     */
+    private $discussions;
+
     public function __construct()
     {
         $this->enseignants = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
         $this->seances = new ArrayCollection();
+        $this->notes = new ArrayCollection();
+        $this->depotTraveauxes = new ArrayCollection();
+        $this->supportCours = new ArrayCollection();
+        $this->discussions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +288,126 @@ class Matiere
             // set the owning side to null (unless already changed)
             if ($seance->getIdMatiere() === $this) {
                 $seance->setIdMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getIdMatiere() === $this) {
+                $note->setIdMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DepotTraveaux[]
+     */
+    public function getDepotTraveauxes(): Collection
+    {
+        return $this->depotTraveauxes;
+    }
+
+    public function addDepotTraveaux(DepotTraveaux $depotTraveaux): self
+    {
+        if (!$this->depotTraveauxes->contains($depotTraveaux)) {
+            $this->depotTraveauxes[] = $depotTraveaux;
+            $depotTraveaux->setIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepotTraveaux(DepotTraveaux $depotTraveaux): self
+    {
+        if ($this->depotTraveauxes->removeElement($depotTraveaux)) {
+            // set the owning side to null (unless already changed)
+            if ($depotTraveaux->getIdMatiere() === $this) {
+                $depotTraveaux->setIdMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SupportCours[]
+     */
+    public function getSupportCours(): Collection
+    {
+        return $this->supportCours;
+    }
+
+    public function addSupportCour(SupportCours $supportCour): self
+    {
+        if (!$this->supportCours->contains($supportCour)) {
+            $this->supportCours[] = $supportCour;
+            $supportCour->setIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupportCour(SupportCours $supportCour): self
+    {
+        if ($this->supportCours->removeElement($supportCour)) {
+            // set the owning side to null (unless already changed)
+            if ($supportCour->getIdMatiere() === $this) {
+                $supportCour->setIdMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Discussion[]
+     */
+    public function getDiscussions(): Collection
+    {
+        return $this->discussions;
+    }
+
+    public function addDiscussion(Discussion $discussion): self
+    {
+        if (!$this->discussions->contains($discussion)) {
+            $this->discussions[] = $discussion;
+            $discussion->setIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscussion(Discussion $discussion): self
+    {
+        if ($this->discussions->removeElement($discussion)) {
+            // set the owning side to null (unless already changed)
+            if ($discussion->getIdMatiere() === $this) {
+                $discussion->setIdMatiere(null);
             }
         }
 

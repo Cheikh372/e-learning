@@ -69,11 +69,29 @@ class Enseignant
      */
     private $seances;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DepotTraveaux::class, mappedBy="idEnseignant")
+     */
+    private $depotTraveauxes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SupportCours::class, mappedBy="idEnseignant")
+     */
+    private $supportCours;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Discussion::class, mappedBy="idEnseignant")
+     */
+    private $discussions;
+
     public function __construct()
     {
         $this->cours = new ArrayCollection();
         $this->idMatiere = new ArrayCollection();
         $this->seances = new ArrayCollection();
+        $this->depotTraveauxes = new ArrayCollection();
+        $this->supportCours = new ArrayCollection();
+        $this->discussions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,6 +243,96 @@ class Enseignant
             // set the owning side to null (unless already changed)
             if ($seance->getIdEnseignant() === $this) {
                 $seance->setIdEnseignant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DepotTraveaux[]
+     */
+    public function getDepotTraveauxes(): Collection
+    {
+        return $this->depotTraveauxes;
+    }
+
+    public function addDepotTraveaux(DepotTraveaux $depotTraveaux): self
+    {
+        if (!$this->depotTraveauxes->contains($depotTraveaux)) {
+            $this->depotTraveauxes[] = $depotTraveaux;
+            $depotTraveaux->setIdEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepotTraveaux(DepotTraveaux $depotTraveaux): self
+    {
+        if ($this->depotTraveauxes->removeElement($depotTraveaux)) {
+            // set the owning side to null (unless already changed)
+            if ($depotTraveaux->getIdEnseignant() === $this) {
+                $depotTraveaux->setIdEnseignant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SupportCours[]
+     */
+    public function getSupportCours(): Collection
+    {
+        return $this->supportCours;
+    }
+
+    public function addSupportCour(SupportCours $supportCour): self
+    {
+        if (!$this->supportCours->contains($supportCour)) {
+            $this->supportCours[] = $supportCour;
+            $supportCour->setIdEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupportCour(SupportCours $supportCour): self
+    {
+        if ($this->supportCours->removeElement($supportCour)) {
+            // set the owning side to null (unless already changed)
+            if ($supportCour->getIdEnseignant() === $this) {
+                $supportCour->setIdEnseignant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Discussion[]
+     */
+    public function getDiscussions(): Collection
+    {
+        return $this->discussions;
+    }
+
+    public function addDiscussion(Discussion $discussion): self
+    {
+        if (!$this->discussions->contains($discussion)) {
+            $this->discussions[] = $discussion;
+            $discussion->setIdEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscussion(Discussion $discussion): self
+    {
+        if ($this->discussions->removeElement($discussion)) {
+            // set the owning side to null (unless already changed)
+            if ($discussion->getIdEnseignant() === $this) {
+                $discussion->setIdEnseignant(null);
             }
         }
 
