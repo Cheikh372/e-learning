@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EnseignantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +58,23 @@ class Enseignant
      * @ORM\Column(type="string", length=255)
      */
     private $photo;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Matiere::class, inversedBy="enseignants")
+     */
+    private $idMatiere;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Seance::class, mappedBy="idEnseignant")
+     */
+    private $seances;
+
+    public function __construct()
+    {
+        $this->cours = new ArrayCollection();
+        $this->idMatiere = new ArrayCollection();
+        $this->seances = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -157,4 +176,60 @@ class Enseignant
 
         return $this;
     }
+
+    /**
+     * @return Collection|Matiere[]
+     */
+    public function getIdMatiere(): Collection
+    {
+        return $this->idMatiere;
+    }
+
+    public function addIdMatiere(Matiere $idMatiere): self
+    {
+        if (!$this->idMatiere->contains($idMatiere)) {
+            $this->idMatiere[] = $idMatiere;
+        }
+
+        return $this;
+    }
+
+    public function removeIdMatiere(Matiere $idMatiere): self
+    {
+        $this->idMatiere->removeElement($idMatiere);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Seance[]
+     */
+    public function getSeances(): Collection
+    {
+        return $this->seances;
+    }
+
+    public function addSeance(Seance $seance): self
+    {
+        if (!$this->seances->contains($seance)) {
+            $this->seances[] = $seance;
+            $seance->setIdEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeance(Seance $seance): self
+    {
+        if ($this->seances->removeElement($seance)) {
+            // set the owning side to null (unless already changed)
+            if ($seance->getIdEnseignant() === $this) {
+                $seance->setIdEnseignant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

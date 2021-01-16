@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MatiereRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,6 +59,28 @@ class Matiere
      * @ORM\JoinColumn(nullable=false)
      */
     private $codeUe;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Enseignant::class, mappedBy="idMatiere")
+     */
+    private $enseignants;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="idMatiere")
+     */
+    private $inscriptions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Seance::class, mappedBy="idMatiere")
+     */
+    private $seances;
+
+    public function __construct()
+    {
+        $this->enseignants = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
+        $this->seances = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -158,4 +182,92 @@ class Matiere
 
         return $this;
     }
+
+    /**
+     * @return Collection|Enseignant[]
+     */
+    public function getEnseignants(): Collection
+    {
+        return $this->enseignants;
+    }
+
+    public function addEnseignant(Enseignant $enseignant): self
+    {
+        if (!$this->enseignants->contains($enseignant)) {
+            $this->enseignants[] = $enseignant;
+            $enseignant->addIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnseignant(Enseignant $enseignant): self
+    {
+        if ($this->enseignants->removeElement($enseignant)) {
+            $enseignant->removeIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getIdMatiere() === $this) {
+                $inscription->setIdMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Seance[]
+     */
+    public function getSeances(): Collection
+    {
+        return $this->seances;
+    }
+
+    public function addSeance(Seance $seance): self
+    {
+        if (!$this->seances->contains($seance)) {
+            $this->seances[] = $seance;
+            $seance->setIdMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeance(Seance $seance): self
+    {
+        if ($this->seances->removeElement($seance)) {
+            // set the owning side to null (unless already changed)
+            if ($seance->getIdMatiere() === $this) {
+                $seance->setIdMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
