@@ -64,9 +64,15 @@ class Seance
      */
     private $emplois;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="idSeance")
+     */
+    private $absences;
+
     public function __construct()
     {
         $this->emplois = new ArrayCollection();
+        $this->absences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,6 +200,36 @@ class Seance
             // set the owning side to null (unless already changed)
             if ($emploi->getIdSeance() === $this) {
                 $emploi->setIdSeance(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Absence[]
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
+    }
+
+    public function addAbsence(Absence $absence): self
+    {
+        if (!$this->absences->contains($absence)) {
+            $this->absences[] = $absence;
+            $absence->setIdSeance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->removeElement($absence)) {
+            // set the owning side to null (unless already changed)
+            if ($absence->getIdSeance() === $this) {
+                $absence->setIdSeance(null);
             }
         }
 

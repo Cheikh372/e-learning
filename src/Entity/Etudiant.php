@@ -79,9 +79,15 @@ class Etudiant
      */
     private $classe;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="idEtudiant")
+     */
+    private $absences;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
+        $this->absences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -247,6 +253,36 @@ class Etudiant
     public function setClasse(?Classe $classe): self
     {
         $this->classe = $classe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Absence[]
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
+    }
+
+    public function addAbsence(Absence $absence): self
+    {
+        if (!$this->absences->contains($absence)) {
+            $this->absences[] = $absence;
+            $absence->setIdEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->removeElement($absence)) {
+            // set the owning side to null (unless already changed)
+            if ($absence->getIdEtudiant() === $this) {
+                $absence->setIdEtudiant(null);
+            }
+        }
 
         return $this;
     }
