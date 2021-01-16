@@ -11,10 +11,14 @@ class ProfileEtudiantController extends AbstractController
     /**
      * @Route("/profile/etudiant", name ="profile_etudiant")
      */
-    public function index(): Response
-    {
+    public function home(): Response
+    {   /*
+        recuperer les informations personnelles de l'etudiant et
+        le passer au controller ,ses absences
+        */
         return $this->render('profile_etudiant/index.html.twig', [
             'controller_name' => 'ProfileEtudiantController',
         ]);
     }
+
 }

@@ -3,9 +3,19 @@
 {% block title %}Hello ProfileEnseignantController!{% endblock %}
 
 {% block body %}
-
+    {% if app.user %}
+    <div class="mb-3">
+        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    </div>
+    {% endif %}
 <div >
     <h1>Welcome Enseignant</h1> 
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Planning</a></li>
+        </ul>
+    </nav>
 </div>
 
 {% endblock %}
