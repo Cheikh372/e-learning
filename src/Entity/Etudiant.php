@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\EtudiantRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,32 +18,37 @@ class Etudiant
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=20)
      */
     private $matricule;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=30)
      */
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=10)
+     */
+    private $sexe;
+
+    /**
+     * @ORM\Column(type="string", length=100)
      */
     private $adresse;
 
@@ -55,52 +58,19 @@ class Etudiant
     private $dateNaissance;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
     private $lieuNaissance;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
     private $cin;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $photo;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="idEtudiant")
-     */
-    private $inscriptions;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="idEtudiant")
-     */
-    private $classe;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="idEtudiant")
-     */
-    private $absences;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="IdEtudiant")
-     */
-    private $notes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=TraveauxRendu::class, mappedBy="idEtudiant")
-     */
-    private $traveauxRendus;
-
-    public function __construct()
-    {
-        $this->inscriptions = new ArrayCollection();
-        $this->absences = new ArrayCollection();
-        $this->notes = new ArrayCollection();
-        $this->traveauxRendus = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -167,6 +137,18 @@ class Etudiant
         return $this;
     }
 
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(string $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
     public function getAdresse(): ?string
     {
         return $this->adresse;
@@ -220,141 +202,9 @@ class Etudiant
         return $this->photo;
     }
 
-    public function setPhoto(string $photo): self
+    public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Inscription[]
-     */
-    public function getInscriptions(): Collection
-    {
-        return $this->inscriptions;
-    }
-
-    public function addInscription(Inscription $inscription): self
-    {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions[] = $inscription;
-            $inscription->setIdEtudiant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInscription(Inscription $inscription): self
-    {
-        if ($this->inscriptions->removeElement($inscription)) {
-            // set the owning side to null (unless already changed)
-            if ($inscription->getIdEtudiant() === $this) {
-                $inscription->setIdEtudiant(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getClasse(): ?Classe
-    {
-        return $this->classe;
-    }
-
-    public function setClasse(?Classe $classe): self
-    {
-        $this->classe = $classe;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Absence[]
-     */
-    public function getAbsences(): Collection
-    {
-        return $this->absences;
-    }
-
-    public function addAbsence(Absence $absence): self
-    {
-        if (!$this->absences->contains($absence)) {
-            $this->absences[] = $absence;
-            $absence->setIdEtudiant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAbsence(Absence $absence): self
-    {
-        if ($this->absences->removeElement($absence)) {
-            // set the owning side to null (unless already changed)
-            if ($absence->getIdEtudiant() === $this) {
-                $absence->setIdEtudiant(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Note[]
-     */
-    public function getNotes(): Collection
-    {
-        return $this->notes;
-    }
-
-    public function addNote(Note $note): self
-    {
-        if (!$this->notes->contains($note)) {
-            $this->notes[] = $note;
-            $note->setIdEtudiant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNote(Note $note): self
-    {
-        if ($this->notes->removeElement($note)) {
-            // set the owning side to null (unless already changed)
-            if ($note->getIdEtudiant() === $this) {
-                $note->setIdEtudiant(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|TraveauxRendu[]
-     */
-    public function getTraveauxRendus(): Collection
-    {
-        return $this->traveauxRendus;
-    }
-
-    public function addTraveauxRendu(TraveauxRendu $traveauxRendu): self
-    {
-        if (!$this->traveauxRendus->contains($traveauxRendu)) {
-            $this->traveauxRendus[] = $traveauxRendu;
-            $traveauxRendu->setIdEtudiant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTraveauxRendu(TraveauxRendu $traveauxRendu): self
-    {
-        if ($this->traveauxRendus->removeElement($traveauxRendu)) {
-            // set the owning side to null (unless already changed)
-            if ($traveauxRendu->getIdEtudiant() === $this) {
-                $traveauxRendu->setIdEtudiant(null);
-            }
-        }
 
         return $this;
     }

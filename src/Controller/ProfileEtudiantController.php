@@ -28,6 +28,7 @@ class ProfileEtudiantController extends AbstractController
             'etudiant' => $etudiant,
         ]);
     }
+    
     /**
      * @Route("/profile/etudiant/planning", name ="etudiant_planning")
     */
