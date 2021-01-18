@@ -74,10 +74,16 @@ class Enseignant
      */
     private $depotTravaux;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Matiere::class, mappedBy="Enseignant")
+     */
+    private $matieres;
+
     public function __construct()
     {
         $this->supports = new ArrayCollection();
         $this->depotTravaux = new ArrayCollection();
+        $this->matieres = new ArrayCollection();
     }
     public function __toString()
     {
@@ -251,6 +257,33 @@ class Enseignant
             if ($depotTravaux->getEnseignant() === $this) {
                 $depotTravaux->setEnseignant(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Matiere[]
+     */
+    public function getMatieres(): Collection
+    {
+        return $this->matieres;
+    }
+
+    public function addMatiere(Matiere $matiere): self
+    {
+        if (!$this->matieres->contains($matiere)) {
+            $this->matieres[] = $matiere;
+            $matiere->addEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatiere(Matiere $matiere): self
+    {
+        if ($this->matieres->removeElement($matiere)) {
+            $matiere->removeEnseignant($this);
         }
 
         return $this;

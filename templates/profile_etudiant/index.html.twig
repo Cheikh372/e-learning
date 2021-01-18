@@ -1,26 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'profile_etudiant/layout.html.twig' %}
 
 {% block title %}mon espace {% endblock %}
 
-{% block body %}
+{% block bodylayout %}
     <div class="container">
-        {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-        {% endif %}
-        <div >
-        <h3>Welcome Etudiant</h3>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href=" {{ path('etudiant_planning')  }}">Planning</a></li>
-                <li><a href=" {{ path('etudiant_support')  }}">Support de Cours</a></li>
-                <li><a href="#">Espace de Depot</a></li>
-                <li><a href="#">Bulletin</a></li>
-                <li><a href="{{ path('etudiant_discussion')  }}">Discussion</a></li>
-            </ul>
-        </nav>
         <h4>INFORMATIONS GENERALES</h4>
         <ul>
             <li><strong>Matricule</strong> : {{ etudiant.matricule }}</li>

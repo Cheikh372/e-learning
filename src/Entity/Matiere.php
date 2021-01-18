@@ -65,10 +65,16 @@ class Matiere
      */
     private $depotTravaux;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Enseignant::class, inversedBy="matieres")
+     */
+    private $Enseignant;
+
     public function __construct()
     {
         $this->supports = new ArrayCollection();
         $this->depotTravaux = new ArrayCollection();
+        $this->Enseignant = new ArrayCollection();
     }
 
     public function __toString()
@@ -221,6 +227,30 @@ class Matiere
                 $depotTravaux->setMatiere(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Enseignant[]
+     */
+    public function getEnseignant(): Collection
+    {
+        return $this->Enseignant;
+    }
+
+    public function addEnseignant(Enseignant $enseignant): self
+    {
+        if (!$this->Enseignant->contains($enseignant)) {
+            $this->Enseignant[] = $enseignant;
+        }
+
+        return $this;
+    }
+
+    public function removeEnseignant(Enseignant $enseignant): self
+    {
+        $this->Enseignant->removeElement($enseignant);
 
         return $this;
     }

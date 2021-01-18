@@ -3,37 +3,56 @@
 {% block title %}Gerer les Supports{% endblock %}
 
 {% block bodylayout %}
-    <h3>Gestion des Supports</h3>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Type de seance</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>fichier</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for support in supports %}
-            <tr>
-                <td>{{ support.typeSupport }}</td>
-                <td>{{ support.titre }}</td>
-                <td>{{ support.description }}</td>
-                <td> <a href="{{ asset('uploads/pdf/'~ support.nomfichier) }}">voir fichier</a></td>
-                <td>
-                    <a href="{{ path('support_show', {'id': support.id}) }}">show</a>
-                    <a href="{{ path('support_edit', {'id': support.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('support_new') }}">Create new</a>
+    <div class="row mt-2">
+        <div class="col-4">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
+            </div>
+        </div>
+       <div class="col-8">
+            <div class="card">
+                <h5 class="card-header"> <a class="btn btn-primary btn-sm" href="{{ path('support_new') }}">Nouveau support</a></h5>
+                <div class="card-body">   
+                    <table class="table table-sm table-secondary">
+                        <thead>
+                            <tr>
+                                <th>Type de seance</th>
+                                <th>Titre</th>
+                                <th>fichier</th>
+                                <th>Afficher</th>
+                                <th>Editer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for support in supports %}
+                            <tr>
+                                <td>{{ support.typeSupport }}</td>
+                                <td>{{ support.titre }}</td>
+                                <td> 
+                                    <a href="{{ asset('uploads/pdf/'~ support.nomfichier) }}">
+                                        <i class="fa fa-file fa-lg" ></i>&nbsp;voir fichier</a>
+                                </td>
+                                <td>
+                                    <a href="{{ path('support_show', {'id': support.id}) }}">
+                                        <i class="fas fa-folder"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ path('support_edit', {'id': support.id}) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>
+    </div>
+    
 {% endblock %}

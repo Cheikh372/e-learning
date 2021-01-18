@@ -19,6 +19,7 @@ class DepotTravauxController extends AbstractController
     {
         return $this->render('depot_travaux/index.html.twig', [
             'depot_travauxes' => $depotTravauxRepository->findAll(),
+            'current_menu'=>'depot',
         ]);
     }
 

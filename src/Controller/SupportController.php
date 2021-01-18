@@ -21,6 +21,7 @@ class SupportController extends AbstractController
     {
         return $this->render('support/index.html.twig', [
             'supports' => $supportRepository->findAll(),
+            'current_menu'=>'support',
         ]);
     }
 

@@ -100,10 +100,10 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             return new RedirectResponse($this->urlGenerator->generate('profile_admin'));
         }
         else if($user && in_array('ROLE_ETUDIANT',$user->getRoles())){
-            return new RedirectResponse($this->urlGenerator->generate('profile_etudiant'));
+            return new RedirectResponse($this->urlGenerator->generate('etudiant_profile'));
         }
         else if($user && in_array('ROLE_ENSEIGNANT',$user->getRoles())){
-            return new RedirectResponse($this->urlGenerator->generate('profile_enseignant'));
+            return new RedirectResponse($this->urlGenerator->generate('enseignant_profile'));
         }
 
 

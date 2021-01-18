@@ -3,26 +3,26 @@
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{{ path('enseignant_profile')}}">E-Learning</a>
+      <a class="navbar-brand" href="{{ path('etudiant_profile')}}">E-Learning</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link {%if current_menu is defined and current_menu == 'home'%} active {%endif%}" href="{{ path('enseignant_profile')  }}">Home</a>
+            <a class="nav-link {%if current_menu is defined and current_menu == 'home'%} active {%endif%}"  href="{{ path('etudiant_profile')}}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {%if current_menu is defined and current_menu == 'planning'%} active {%endif%}" href=" {{ path('enseignant_planning')  }}">Planning</a>
+            <a class="nav-link {%if current_menu is defined and current_menu == 'planning'%} active {%endif%}" href="{{ path('etudiant_planning')  }}">Planning</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {%if current_menu is defined and current_menu == 'support' %} active {%endif%}" href=" {{ path('support_index')  }}">Support de Cours</a>
+            <a class="nav-link {%if current_menu is defined and current_menu == 'support'%} active {%endif%}" href=" {{ path('etudiant_support')  }}" >Support de Cours</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {%if current_menu is defined and current_menu == 'depot'%} active {%endif%}" href=" {{ path('depot_index')   }}">Espace de Depot</a>
+            <a class="nav-link {%if current_menu is defined and current_menu == 'depot'%} active {%endif%}" href="#">Espace de Depot</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {%if current_menu is defined and current_menu == 'discussion'%} active {%endif%}" href=" {{ path('enseignant_discussion') }}">Discussion</a>
+            <a class="nav-link {%if current_menu is defined and current_menu == 'discussion'%} active {%endif%}" href="{{ path('etudiant_discussion')  }}">Discussion</a>
           </li>
         </ul>
         {% if app.user %}

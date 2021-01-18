@@ -32,6 +32,7 @@ class ProfileEnseignantController extends AbstractController
         $enseignant =$this->enseignantRepo->find($user->getidUser());
         return $this->render('profile_enseignant/index.html.twig', [
             'enseignant' => $enseignant,
+            'current_menu'=>'home',
         ]);
     }
 
@@ -40,16 +41,11 @@ class ProfileEnseignantController extends AbstractController
     */
     public function planning(): Response
     {
-       return $this->render('profile_enseignant/planning.html.twig');
+       return $this->render('profile_enseignant/planning.html.twig',[
+        'current_menu'=>'planning',
+       ]);
     }
-    /**
-    * retourne tous les support
-    * @Route("/depot", name ="depot")
-    */
-    public function depot(): Response
-    {
-        return $this->render('profile_enseignant/depot.html.twig');
-    }
+   
 
     /**
     * retourne tous la discussion pour une matiere (concernant enseignant )
@@ -57,7 +53,9 @@ class ProfileEnseignantController extends AbstractController
     */
     public function Discussion(): Response
     {
-        return $this->render('profile_etudiant/discussion.html.twig');
+        return $this->render('profile_etudiant/discussion.html.twig',[
+            'current_menu'=>'discussion',
+        ]);
     }
 
 }

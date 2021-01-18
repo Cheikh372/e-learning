@@ -16,7 +16,7 @@ class ProfileEtudiantController extends AbstractController
         $this->etudiantRepo=$repo;
     }
     /**
-     * @Route("/profile/etudiant", name ="profile_etudiant")
+     * @Route("/profile/etudiant", name ="etudiant_profile")
     */
     public function home(): Response
     {   /*
@@ -27,6 +27,7 @@ class ProfileEtudiantController extends AbstractController
         $etudiant =$this->etudiantRepo->find($user->getidUser());
         return $this->render('profile_etudiant/index.html.twig', [
             'etudiant' => $etudiant,
+            'current_menu'=>'home',
         ]);
     }
     
@@ -36,7 +37,9 @@ class ProfileEtudiantController extends AbstractController
     public function planning(): Response
     {
 
-        return $this->render('profile_etudiant/planning.html.twig');
+        return $this->render('profile_etudiant/planning.html.twig',[
+            'current_menu'=>'planning',
+        ]);
     }
 
     /**
@@ -45,7 +48,9 @@ class ProfileEtudiantController extends AbstractController
     */
     public function support(): Response
     {
-        return $this->render('profile_etudiant/support.html.twig');
+        return $this->render('profile_etudiant/support.html.twig',[
+            'current_menu'=>'support',
+        ]);
     }
 
     /**
@@ -63,7 +68,9 @@ class ProfileEtudiantController extends AbstractController
     */
     public function Discussion(): Response
     {
-        return $this->render('profile_etudiant/discussion.html.twig');
+        return $this->render('profile_etudiant/discussion.html.twig',[
+            'current_menu'=>'discussion',
+        ]);
     }
 
     /**
