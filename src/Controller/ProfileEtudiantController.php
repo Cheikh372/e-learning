@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileEtudiantController extends AbstractController
 {   
     private $etudiantRepo;
+    
     public function __construct(EtudiantRepository $repo){
         $this->etudiantRepo=$repo;
     }

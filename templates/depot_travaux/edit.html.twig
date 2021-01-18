@@ -1,0 +1,13 @@
+{% extends 'profile_enseignant/layout.html.twig' %}
+
+{% block title %}Edit DepotTravaux{% endblock %}
+
+{% block bodylayout %}
+    <h1>Edit DepotTravaux</h1>
+
+    {{ include('depot_travaux/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('depot_index') }}">back to list</a>
+
+    {{ include('depot_travaux/_delete_form.html.twig') }}
+{% endblock %}

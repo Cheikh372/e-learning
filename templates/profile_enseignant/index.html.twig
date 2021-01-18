@@ -1,21 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'profile_enseignant/layout.html.twig' %}
 
 {% block title %}Hello ProfileEnseignantController!{% endblock %}
 
-{% block body %}
-    {% if app.user %}
-    <div class="mb-3">
-        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-    </div>
-    {% endif %}
+{% block bodylayout %}
 <div >
-    <h1>Welcome Enseignant</h1> 
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Planning</a></li>
-        </ul>
-    </nav>
+    <h3>Informations Generales</h3>
+    <ul>
+        <li><strong>Matricule</strong> : {{ enseignant.matricule }}</li>
+        <li><strong>Nom</strong> : {{ enseignant.nom }}</li>
+        <li><strong>Prenom</strong> : {{ enseignant.prenom }}</li>
+        <li><strong>Email</strong> : {{ enseignant.email }}</li>
+        <li><strong>Telephone</strong> : {{ enseignant.telephone }}</li>
+        <li><strong>Adresse </strong> : {{ enseignant.adresse  }}</li>
+        <li><strong>Grade</strong> : {{ enseignant.grade }}</li>
+        <li><strong>Specialite</strong> : {{ enseignant.specialite }}</li>
+        <li><strong>photo</strong> : {{ enseignant.photo }}</li>
+        
+    </ul>
 </div>
-
 {% endblock %}
+

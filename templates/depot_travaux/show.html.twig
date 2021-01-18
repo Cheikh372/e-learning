@@ -1,0 +1,38 @@
+{% extends 'profile_enseignant/layout.html.twig' %}
+
+{% block title %}DepotTravaux{% endblock %}
+
+{% block bodylayout %}
+    <h1>DepotTravaux</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ depot_travaux.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ depot_travaux.description }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ depot_travaux.dateCreation ? depot_travaux.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Dateline</th>
+                <td>{{ depot_travaux.dateline ? depot_travaux.dateline|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Fichier</th>
+                <td>{{ depot_travaux.fichier }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('depot_index') }}">retourner</a>
+
+    <a href="{{ path('depot_edit', {'id': depot_travaux.id}) }}">edit</a>
+
+    {{ include('depot_travaux/_delete_form.html.twig') }}
+{% endblock %}

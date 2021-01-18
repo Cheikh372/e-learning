@@ -36,7 +36,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profile/enseignant, roles: ROLE_USER }
         - { path: ^/profile/enseignant, roles: ROLE_ENSEIGNANT }
         - { path: ^/profile/etudiant, roles: ROLE_ETUDIANT }
         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    role_hierarchy:
+        ROLE_ETUDIANT: ROLE_USER
+        ROLE_ENSEIGNANT: ROLE_USER

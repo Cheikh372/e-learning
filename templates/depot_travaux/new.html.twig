@@ -1,0 +1,11 @@
+{% extends 'profile_enseignant/layout.html.twig' %}
+
+{% block title %}New DepotTravaux{% endblock %}
+
+{% block bodylayout %}
+    <h1>Create new DepotTravaux</h1>
+
+    {{ include('depot_travaux/_form.html.twig') }}
+
+    <a href="{{ path('depot_index') }}">retourner</a>
+{% endblock %}

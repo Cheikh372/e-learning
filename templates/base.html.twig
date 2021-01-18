@@ -4,10 +4,15 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     </head>
-    <body>
-        {% block body %}
-        {% endblock %}
+    <body class="badge-dark">
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
+       
       
         {% block javascripts %}
         {% endblock %}

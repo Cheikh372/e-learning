@@ -1,0 +1,49 @@
+{% extends 'profile_enseignant/layout.html.twig' %}
+
+{% block title %}Gestion des Depots{% endblock %}
+
+{% block bodylayout %}
+    <h3>Gestion des Depots</h3>
+    <table class="table table-sm table-hover  align-middle">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Date de Creation</th>
+                <th>Dateline</th>
+                <th>Fichier</th>
+                <th>Afficher</th>
+                <th>Editer</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for depot_travaux in depot_travauxes %}
+            <tr>
+                <td>{{ depot_travaux.description }}</td>
+                <td>{{ depot_travaux.dateCreation ? depot_travaux.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ depot_travaux.dateline ? depot_travaux.dateline|date('Y-m-d H:i:s') : '' }}</td>
+                <td> 
+                    <a href="{{ asset('uploads/pdf/'~ depot_travaux.fichier) }}">
+                        <i class="fa fa-file fa-lg" ></i>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-info btn-sm" href="{{ path('depot_show', {'id': depot_travaux.id}) }}">
+                        <i class="fas fa-folder"></i>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-secondary" href="{{ path('depot_edit', {'id': depot_travaux.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Pas de Depots</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-sm btn-primary" href="{{ path('depot_new') }}">Creer nouveau</a>
+{% endblock %}

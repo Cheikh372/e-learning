@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EnseignantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,6 +64,25 @@ class Enseignant
      */
     private $photo;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Support::class, mappedBy="enseignant", orphanRemoval=true)
+     */
+    private $supports;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DepotTravaux::class, mappedBy="enseignant")
+     */
+    private $depotTravaux;
+
+    public function __construct()
+    {
+        $this->supports = new ArrayCollection();
+        $this->depotTravaux = new ArrayCollection();
+    }
+    public function __toString()
+    {
+        return $this->prenom.''.$this->nom.' '.$this->matricule;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +192,66 @@ class Enseignant
     public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Support[]
+     */
+    public function getSupports(): Collection
+    {
+        return $this->supports;
+    }
+
+    public function addSupport(Support $support): self
+    {
+        if (!$this->supports->contains($support)) {
+            $this->supports[] = $support;
+            $support->setEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupport(Support $support): self
+    {
+        if ($this->supports->removeElement($support)) {
+            // set the owning side to null (unless already changed)
+            if ($support->getEnseignant() === $this) {
+                $support->setEnseignant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DepotTravaux[]
+     */
+    public function getDepotTravaux(): Collection
+    {
+        return $this->depotTravaux;
+    }
+
+    public function addDepotTravaux(DepotTravaux $depotTravaux): self
+    {
+        if (!$this->depotTravaux->contains($depotTravaux)) {
+            $this->depotTravaux[] = $depotTravaux;
+            $depotTravaux->setEnseignant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepotTravaux(DepotTravaux $depotTravaux): self
+    {
+        if ($this->depotTravaux->removeElement($depotTravaux)) {
+            // set the owning side to null (unless already changed)
+            if ($depotTravaux->getEnseignant() === $this) {
+                $depotTravaux->setEnseignant(null);
+            }
+        }
 
         return $this;
     }
