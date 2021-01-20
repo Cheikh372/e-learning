@@ -6,9 +6,12 @@ use App\Repository\EnseignantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=EnseignantRepository::class)
+ * @Vich\Uploadable
  */
 class Enseignant
 {
@@ -63,6 +66,11 @@ class Enseignant
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $photo;
+   /**
+     * @Vich\UploadableField(mapping="user_images", fileNameProperty="photo")
+     * @var File | null
+     */
+    private $imageFile;
 
     /**
      * @ORM\OneToMany(targetEntity=Support::class, mappedBy="enseignant", orphanRemoval=true)
@@ -78,6 +86,11 @@ class Enseignant
      * @ORM\ManyToMany(targetEntity=Matiere::class, mappedBy="Enseignant")
      */
     private $matieres;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
 
     public function __construct()
     {
@@ -285,6 +298,46 @@ class Enseignant
         if ($this->matieres->removeElement($matiere)) {
             $matiere->removeEnseignant($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * Get | null
+     *
+     * @return  File
+     */ 
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set | null
+     *
+     * @param  File  $imageFile  | null
+     *
+     * @return  self
+     */ 
+    public function setImageFile(File $imageFile)
+    {
+        $this->imageFile = $imageFile;
+        
+        if ($imageFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updated_at = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
