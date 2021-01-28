@@ -2,55 +2,40 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Enseignant;
+use App\Entity\Inscrire;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class EnseignantCrudController extends AbstractCrudController
+class InscrireCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Enseignant::class;
+        return Inscrire::class;
     }
 
-
-    public function configureFields(string $pageName): iterable
+    public function configureCrud(Crud $crud): Crud
     {
-       return [
-            TextField::new('matricule'),
-            TextField::new('nom'),
-            TextField::new('prenom'),
-            EmailField::new('email'),
-            TelephoneField::new('telephone'),
-            TextField::new('adresse')->hideOnIndex(),
-            TextField::new('grade'),
-            TextField::new('specialite')->hideOnIndex(),
-            ImageField::new('photo', 'Photo')
-                ->onlyOnDetail()
-                ->setBasePath('/uploads/images'),
- $imageFile =TextareaField::new('imageFile', 'Photo')
-                ->onlyOnForms()
-                ->setFormType(VichImageType::class),
-              
-            AssociationField::new('matieres')->hideOnForm()
-        ];
+        return $crud
+            ->setDateFormat("dd/MM/yyyy")
+            ->setEntityLabelInPlural("Inscriptions")
+            ->setEntityLabelInSingular("Inscription")
+
+            ->setPageTitle("index", "Liste des %entity_label_plural%")
+            ->setPageTitle("new","Ajouter une %entity_label_singular%")
+            ->setPageTitle("edit","Modifier l' %entity_label_singular% ");
     }
     public function configureActions(Actions $actions): Actions
     {
         return $actions
             ->add(Crud::PAGE_INDEX,Action::DETAIL)
-
             ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setLabel('Ajouter un %entity_label_singular%');
+                return $action->setLabel('Ajouter une %entity_label_singular%');
             })
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
                 return $action->setLabel('Modifier');
@@ -84,16 +69,16 @@ class EnseignantCrudController extends AbstractCrudController
             })
             ;
     }
-    public function configureCrud(Crud $crud): Crud
+   
+    public function configureFields(string $pageName): iterable
     {
-
-        return $crud
-            ->setEntityLabelInPlural("Enseignants")
-            ->setEntityLabelInSingular("Enseignant")
-
-            ->setPageTitle("index", "Liste des %entity_label_plural%")
-            ->setPageTitle("new","Ajouter un %entity_label_singular%")
-            ->setPageTitle("edit","Modifier l'%entity_label_singular% ");
+        return [
+            FormField::addPanel(),
+            AssociationField::new('etudiant'),
+            AssociationField::new('matiere'),
+            TextField::new('semestre'),
+            DateField::new('date_inscription'),
+        ];
     }
-
+    
 }

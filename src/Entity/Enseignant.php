@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EnseignantRepository::class)
+ * @UniqueEntity("matricule")
  * @Vich\Uploadable
  */
 class Enseignant
@@ -39,6 +42,7 @@ class Enseignant
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Email
      */
     private $email;
 

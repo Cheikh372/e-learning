@@ -4,21 +4,40 @@
 
 {% block bodylayout %}
     <div class="container">
-        <h4>INFORMATIONS GENERALES</h4>
-        <ul>
-            <li><strong>Matricule</strong> : {{ etudiant.matricule }}</li>
-            <li><strong>Nom</strong> : {{ etudiant.nom }}</li>
-            <li><strong>Prenom</strong> : {{ etudiant.prenom }}</li>
-            <li><strong>Email</strong> : {{ etudiant.email }}</li>
-            <li><strong>Telephone</strong> : {{ etudiant.telephone }}</li>
-            <li><strong>Date De Naissance </strong> : {{ etudiant.dateNaissance | date("m/d/y") }}</li>
-            <li><strong>Lieu De Naissance</strong> : {{ etudiant.lieuNaissance }}</li>
-            <li><strong>Photo</strong> : {{ etudiant.photo }}</li>
-            <li><strong>CIN</strong> : {{ etudiant.cin }}</li>
-            
-        </ul>
-        <h4>NOTES</h4>
-        <h4>ABSENCES</h4>
+        <div class="row">
+            <div class="col-4">
+                <div class ="cadre-header">INFORMATIONS GENERALES</h6></div>
+                <div class ="cadre-body shadow p-3 mb-5 bg-white rounded">
+                    {% if(etudiant) %}
+                    <div class="cadre-header">
+                        <img src="/uploads/images/{{ etudiant.photo }}" class="rounded thumnails" width="120px" alt="mon profil">
+                    </div>
+                    <ul >
+                        <hr>
+                        <li><strong>Matricule</strong> : {{ etudiant.matricule }}</li> 
+                        <li>{{ etudiant.prenom }} {{ etudiant.nom }} </li>
+                        <li><strong>Email</strong> : {{ etudiant.email }}</li>
+                        <li><strong>Telephone</strong> : {{ etudiant.telephone }}</li>
+                        <li><strong>Date De Naissance </strong> : {{ etudiant.dateNaissance | date("m/d/y") }}</li>
+                        <li><strong>Lieu De Naissance</strong> : {{ etudiant.lieuNaissance }}</li>
+                        <li><strong>CIN</strong> : {{ etudiant.cin }}</li> 
+                    </ul>
+                {%endif %}
+                </div>
+                
+            </div>
+            <div class="col-8">
+                <div class="cadre-header">NOTES </div>
+                <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
+                   
+                </div>
+                <div class="cadre-header"> ABSENCES </div>
+                <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
+                    
+                </div>
+            </div>
+
+        </div>
         
         </div>
     </div>

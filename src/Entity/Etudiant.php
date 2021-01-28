@@ -3,10 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\EtudiantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @UniqueEntity("matricule")
  * @ORM\Entity(repositoryClass=EtudiantRepository::class)
+ * @Vich\Uploadable
  */
 class Etudiant
 {
@@ -34,6 +42,7 @@ class Etudiant
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Email
      */
     private $email;
 
@@ -72,6 +81,28 @@ class Etudiant
      */
     private $photo;
 
+     /**
+     * @Vich\UploadableField(mapping="user_images", fileNameProperty="photo")
+     * @var File | null
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscrire::class, mappedBy="etudiant", orphanRemoval=true)
+     */
+    private $matiere;
+
+    public function __construct()
+    {
+        $this->matiere = new ArrayCollection();
+    }
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -207,5 +238,80 @@ class Etudiant
         $this->photo = $photo;
 
         return $this;
+    }
+
+    /**
+     * Get | null
+     *
+     * @return  File
+     */ 
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set | null
+     *
+     * @param  File  $imageFile  | null
+     *
+     * @return  self
+     */ 
+    public function setImageFile(File $imageFile)
+    {
+        $this->imageFile = $imageFile;
+        
+        if ($imageFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updated_at = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscrire[]
+     */
+    public function getMatiere(): Collection
+    {
+        return $this->matiere;
+    }
+
+    public function addMatiere(Inscrire $matiere): self
+    {
+        if (!$this->matiere->contains($matiere)) {
+            $this->matiere[] = $matiere;
+            $matiere->setEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatiere(Inscrire $matiere): self
+    {
+        if ($this->matiere->removeElement($matiere)) {
+            // set the owning side to null (unless already changed)
+            if ($matiere->getEtudiant() === $this) {
+                $matiere->setEtudiant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->matricule.'-'.$this->prenom.' '.$this->nom;
     }
 }

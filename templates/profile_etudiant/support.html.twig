@@ -3,8 +3,54 @@
 {% block title %}Hello ProfileEtudiantController!{% endblock %}
 
 {% block bodylayout %}
-    <!-- sidebar Menu contenant la liste des matieres (inscrit par l'etudiant) 
-        affiche les supports en cliquant  sur une matiere
-    -->
-    <h4>affiche les support de cours </h4>
+    <div class="row mt-2">
+        <div class="col-4">
+            <div class="cadre-header">Liste des Matieres</div>
+            <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
+                {% if(matieres) %}
+                <ul class="nav">
+                    {% for matiere in matieres %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('etudiant_support_matiere', {'id': matiere.id}) }}">{{ matiere.libelle }}</a>
+                        </li>
+                    {%endfor%}
+                </ul> 
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Cours Magistral</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Travaux Diriges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Travaux Pratiques</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Autres</a>
+                    </li>
+                </ul>
+                <table class="table table-striped table-hover">
+                    <thead>                   
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Telecharger</th>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+        {% else %}
+                <h5>Aucune matieres inscrites</h5>
+        {% endif %}
+        </div>
+           
+    </div>
+    
 {% endblock %}

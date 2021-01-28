@@ -70,11 +70,20 @@ class Matiere
      */
     private $Enseignant;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Inscrire::class, mappedBy="matiere", orphanRemoval=true)
+     */
+    private $etudiant;
+
+    
+
     public function __construct()
     {
         $this->supports = new ArrayCollection();
         $this->depotTravaux = new ArrayCollection();
         $this->Enseignant = new ArrayCollection();
+        $this->etudiant = new ArrayCollection();
+
     }
 
     public function __toString()
@@ -254,4 +263,36 @@ class Matiere
 
         return $this;
     }
+
+    /**
+     * @return Collection|Inscrire[]
+     */
+    public function getEtudiant(): Collection
+    {
+        return $this->etudiant;
+    }
+
+    public function addEtudiant(Inscrire $etudiant): self
+    {
+        if (!$this->etudiant->contains($etudiant)) {
+            $this->etudiant[] = $etudiant;
+            $etudiant->setMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudiant(Inscrire $etudiant): self
+    {
+        if ($this->etudiant->removeElement($etudiant)) {
+            // set the owning side to null (unless already changed)
+            if ($etudiant->getMatiere() === $this) {
+                $etudiant->setMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+ 
 }

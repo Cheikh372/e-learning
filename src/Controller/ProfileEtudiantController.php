@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Matiere;
+use App\Entity\Inscrire;
+use App\Entity\Support;
 use App\Repository\EtudiantRepository;
+use App\Repository\MatiereRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,9 +40,9 @@ class ProfileEtudiantController extends AbstractController
     */
     public function planning(): Response
     {
-
+        
         return $this->render('profile_etudiant/planning.html.twig',[
-            'current_menu'=>'planning',
+            'current_menu'=>'planning'
         ]);
     }
 
@@ -48,18 +52,34 @@ class ProfileEtudiantController extends AbstractController
     */
     public function support(): Response
     {
+        $user =$this->getUser();
+        $etudiant =$this->etudiantRepo->find($user->getidUser());
+        $matiereid = $etudiant->getMatiere(); // ligne inscrire
+        
+        foreach($matiereid as $id){
+            $idmatiere =$id->getMatiere(); // une matiere
+            $matieres []= $this->getDoctrine()->getRepository(Matiere::class)->find($idmatiere);
+        }
+       
         return $this->render('profile_etudiant/support.html.twig',[
             'current_menu'=>'support',
+            'matieres'=>$matieres,
         ]);
     }
 
     /**
      * retourne tous les support pour une matiere et enseignant
-     * @Route("/profile/etudiant/support", name ="etudiant_support_matiere")
+     * 
+     * @Route("/profile/etudiant/support/{id}", name ="etudiant_support_matiere" )
     */
-    public function supportMatiere() :Response
+    public function supportMatiere($id) :Response
     {
-        return new Response('tous les supports d une matiere donnee');
+        
+        $support[] =$this->getDoctrine()->getRepository(Support::class)->find($id);
+        return $this->render('profile_etudiant/support.html.twig',[
+            'current_submenu'=>'support',
+            'current_matiere'=>'matiere'.$id
+        ]);
     }
 
     /**
