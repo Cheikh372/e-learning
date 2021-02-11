@@ -5,15 +5,22 @@
 {% block bodylayout %}
     <div class="row mt-2">
         <div class="col-4">
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
+            <div class="cadre-header">Liste des Matieres</div>
+            <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
+                <div class="list-group">
+                    {% for matiere in matieres %}
+                        <a class="list-group-item list-group-item-action {%if current_matiere==matiere.libelle %} active {%endif%}" href="{{ path('support_index', {'id': matiere.id}) }}"> {{ matiere.libelle }}</a>
+                    {% else %}
+                        <a class="list-group-item list-group-item-action">Aucune Matiere</a>
+                {% endfor %}  
+                </div>
             </div>
         </div>
-       <div class="col-8">
-            <div class="card">
-                <h5 class="card-header"> <a class="btn btn-primary btn-sm" href="{{ path('support_new') }}">Nouveau support</a></h5>
-                <div class="card-body">   
-                    <table class="table table-sm table-secondary">
+        <div class="col-8">
+            {%block partieSupport %}
+                <div class="cadre-header">Mes Support de Cours <h6>{{current_matiere }}</h6> </div>
+                <div class="cadre-body shadow p-3 mb-2 bg-white rounded">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th>Type de seance</th>
@@ -24,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for support in supports %}
+                        {% for support in current_support %}
                             <tr>
                                 <td>{{ support.typeSupport }}</td>
                                 <td>{{ support.titre }}</td>
@@ -45,14 +52,15 @@
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="5">no records found</td>
+                                <td class="text-center" colspan="5">Aucun support</td>
                             </tr>
                         {% endfor %}
                         </tbody>
-                    </table>    
+                    </table>      
                 </div>
-            </div>
-        </div>
+                <a class="btn btn-secondary btn-sm " href="{{ path('support_new') }}">Nouveau support</a>
+            {% endblock %}
+        </div>  
     </div>
     
 {% endblock %}

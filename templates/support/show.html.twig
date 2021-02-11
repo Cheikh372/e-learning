@@ -1,34 +1,32 @@
-{% extends 'profile_enseignant/layout.html.twig' %}
+{% extends 'support/index.html.twig' %}
 
 {% block title %}Support{% endblock %}
 
-{% block bodylayout %}
-    <h1>Support</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ support.id }}</td>
-            </tr>
-            <tr>
-                <th>Type_support</th>
-                <td>{{ support.typeSupport }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ support.description }}</td>
-            </tr>
-            <tr>
-                <th>Nomfichier</th>
-                <td>{{ support.nomfichier }}</td>
-            </tr>
-        </tbody>
-    </table>
-
+{%block partieSupport %} 
+    <div class ="cadre-header">Support</div>  
+    <div class ="cadre-body shadow p-3 mb-5 bg-white rounded">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ support.id }}</td>
+                </tr>
+                <tr>
+                    <th>Type_support</th>
+                    <td>{{ support.typeSupport }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ support.description }}</td>
+                </tr>
+                <tr>
+                    <th>Nomfichier</th>
+                    <td>{{ support.nomfichier }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <a href="{{ path('support_index') }}">retourner</a>
-
     <a href="{{ path('support_edit', {'id': support.id}) }}">edit</a>
-
     {{ include('support/_delete_form.html.twig') }}
 {% endblock %}

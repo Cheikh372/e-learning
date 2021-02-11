@@ -17,13 +17,13 @@ class SecurityController extends AbstractController
         $user=$this->getUser();
         if ($user) {
             if(in_array('ROLE_ETUDIANT',$user->getRoles())){
-                return $this->redirectToRoute('profile_etudiant');
+                return $this->redirectToRoute('etudiant_profile');
             }
             else if(in_array('ROLE_ENSEIGNANT',$user->getRoles())){
-                return $this->redirectToRoute('profile_enseignant');
+                return $this->redirectToRoute('enseignant_profile');
             }
             else if(in_array('ROLE_ADMIN',$user->getRoles())){
-                return $this->redirectToRoute('profile_admin');
+                return $this->redirectToRoute('admin_profile');
             }
 
             

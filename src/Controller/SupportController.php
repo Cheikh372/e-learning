@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Support;
 use App\Form\SupportType;
 use App\Entity\Enseignant;
+use App\Entity\Matiere;
+use App\Repository\EnseignantRepository;
 use App\Repository\SupportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,14 +16,42 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/profile/enseignant/support',name: 'support_')]
 class SupportController extends AbstractController
 {
+    private $enseignantRepo;
+    
+    public function __construct(EnseignantRepository $repo)
+    {
+        $this->enseignantRepo=$repo;
+    }
     /**
     * @Route("/", name ="index")
     */
-    public function index(SupportRepository $supportRepository): Response
+    public function index(Request $request): Response
     {
+        // recupere l'enseignant connecté
+        $user =$this->getUser();
+        $enseignant =$this->enseignantRepo->find($user->getidUser());
+
+        // on recupere les matieres qu'il enseigne
+        $matieres = $enseignant->getMatieres(); 
+        $repamat=$this->getDoctrine()->getRepository(Matiere::class);
+
+        if($matieres){
+           
+            $current_matiere=$matieres[0];
+            // recuperation  des depots
+            $current_support=$matieres[0]->getSupports();
+
+            if($request->query->has('id')){
+                $idmat =$request->query->get('id') ;
+                $current_matiere =$repamat->find($idmat);
+                $current_support =$current_matiere->getSupports();
+            }
+        }
         return $this->render('support/index.html.twig', [
-            'supports' => $supportRepository->findAll(),
+            'current_support'=>$current_support,
             'current_menu'=>'support',
+            'current_matiere'=>$current_matiere->getLibelle(),
+            'matieres'=>$matieres,
         ]);
     }
 
@@ -56,6 +86,9 @@ class SupportController extends AbstractController
         return $this->render('support/new.html.twig', [
             'support' => $support,
             'form' => $form->createView(),
+            'current_menu'=>'support',
+            'current_matiere'=>'nnnn',
+            'matieres'=>[],
         ]);
     }
 
@@ -64,6 +97,9 @@ class SupportController extends AbstractController
     {
         return $this->render('support/show.html.twig', [
             'support' => $support,
+            'current_menu'=>'support',
+            'current_matiere'=>'nnnn',
+            'matieres'=>[],
         ]);
     }
 
@@ -82,6 +118,9 @@ class SupportController extends AbstractController
         return $this->render('support/edit.html.twig', [
             'support' => $support,
             'form' => $form->createView(),
+            'current_menu'=>'support',
+            'current_matiere'=>'nnnn',
+            'matieres'=>[],
         ]);
     }
 

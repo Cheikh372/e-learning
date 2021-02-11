@@ -19,7 +19,7 @@
             <a class="nav-link {%if current_menu is defined and current_menu == 'support'%} active {%endif%}" href=" {{ path('etudiant_support')  }}" >Support de Cours</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {%if current_menu is defined and current_menu == 'depot'%} active {%endif%}" href="#">Espace de Depot</a>
+            <a class="nav-link {%if current_menu is defined and current_menu == 'depot'%} active {%endif%}" href="{{ path('etudiant_depot')  }}">Espace de Depot</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {%if current_menu is defined and current_menu == 'discussion'%} active {%endif%}" href="{{ path('etudiant_discussion')  }}">Discussion</a>

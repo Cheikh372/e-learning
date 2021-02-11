@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Enseignant;
 use App\Entity\DepotTravaux;
+use App\Entity\Matiere;
 use App\Form\DepotTravauxType;
 use App\Repository\DepotTravauxRepository;
+use App\Repository\EnseignantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +16,38 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/profile/enseignant/depot',name: 'depot')]
 class DepotTravauxController extends AbstractController
 {
-    #[Route('/', name: '_index', methods: ['GET'])]
-    public function index(DepotTravauxRepository $depotTravauxRepository): Response
+    private $enseignantRepo;
+    public function __construct(EnseignantRepository $repo)
     {
+        $this->enseignantRepo=$repo;
+    }
+    #[Route('/', name: '_index', methods: ['GET'])]
+    public function index(Request $request): Response
+    {
+        // recupere l'enseignant connecté
+        $user =$this->getUser();
+        $enseignant =$this->enseignantRepo->find($user->getidUser());
+         
+         // on recupere les matieres qu'il enseigne
+        $matieres = $enseignant->getMatieres(); 
+        $repamat=$this->getDoctrine()->getRepository(Matiere::class);
+        if($matieres){
+           
+            $current_matiere=$matieres[0];
+            // recuperation  des depots
+            $current_depot=$matieres[0]->getDepotTravaux();
+
+            if($request->query->has('id')){
+                $idmat =$request->query->get('id') ;
+                $current_matiere =$repamat->find($idmat);
+                $current_depot =$current_matiere->getDepotTravaux();
+            }
+        }
         return $this->render('depot_travaux/index.html.twig', [
-            'depot_travauxes' => $depotTravauxRepository->findAll(),
+            'current_depot' =>$current_depot,
             'current_menu'=>'depot',
+            'current_matiere'=>$current_matiere->getLibelle(),
+            'matieres'=>$matieres,
         ]);
     }
 
@@ -56,6 +84,9 @@ class DepotTravauxController extends AbstractController
         return $this->render('depot_travaux/new.html.twig', [
             'depot_travaux' => $depotTravaux,
             'form' => $form->createView(),
+            'current_menu'=>'depot',
+            'current_matiere'=>'nnnn',
+            'matieres'=>[],
         ]);
     }
 

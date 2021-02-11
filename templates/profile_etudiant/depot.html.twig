@@ -1,0 +1,47 @@
+{% extends 'profile_etudiant/layout.html.twig' %}
+
+{% block title %}Hello ProfileEtudiantController!{% endblock %}
+
+{% block bodylayout %}
+    <div class="row mt-2">
+        <div class="col-4 ">
+            <div class="cadre-header">Liste des Matieres</div>
+            <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
+                {% if(matieres) %}
+                <div class="list-group">
+                    {% for matiere in matieres %}
+                    <a class="list-group-item list-group-item-action {%if current_matiere==matiere.libelle %} active {%endif%}" href="{{  path('etudiant_depot', {'id': matiere.id}) }}">{{ matiere.libelle }}</a>
+                    {%endfor%} 
+                </div>  
+                {% else %}
+                    <h5>Aucune matieres inscrites</h5>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="cadre-header">Depot Travaux  <h6>{{ current_matiere }}</h6>  </div>
+            <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
+                <table class="table  table-hover">
+                    <thead>                   
+                        <th>Description</th>
+                        <th>Date de Creation</th>
+                        <th>Dateline</th>
+                        <th>Fichier</th>
+                    </thead>
+                    <tbody>
+                        {% for depot in current_depot %}
+                        <tr>
+                            <td>{{depot.description }}</td>
+                            <td>{{depot.dateCreation | date('Y-m-d H:i:s')  }}</td>
+                            <td>{{depot.dateline | date('Y-m-d H:i:s')  }}</td>
+                        </tr>
+                        {%else%} <tr ><td class="text-center" colspan="4">Depot Vide</td></tr> 
+                        {%endfor%}
+                    </tbody>  
+                </table>
+               
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -22,7 +22,7 @@ class DepotTravauxType extends AbstractType
                 'label'=>false,
                 'multiple'=>false,
                 'mapped'=>false,
-                'required'=>true
+                'required'=>false
         ]);
     }
 

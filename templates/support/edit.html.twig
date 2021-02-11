@@ -1,13 +1,12 @@
-{% extends 'profile_enseignant/layout.html.twig' %}
+{% extends 'support/index.html.twig' %}
 
-{% block title %}Edit Support{% endblock %}
+{% block title %}Editer Support{% endblock %}
 
-{% block bodylayout %}
-    <h1>Edit Support</h1>
-
-    {{ include('support/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('support_index') }}">back to list</a>
-
+{%block partieSupport %} 
+    <div class ="cadre-header">Editer Support</div>   
+    <div class ="cadre-body shadow p-3 mb-5 bg-white rounded">
+        {{ include('support/_form.html.twig', {'button_label': 'Modifier'}) }}
+    </div>
+    <a href="{{ path('support_index') }}">Retourner</a>
     {{ include('support/_delete_form.html.twig') }}
 {% endblock %}

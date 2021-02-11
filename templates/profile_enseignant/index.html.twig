@@ -9,18 +9,21 @@
             <div class ="cadre-header ">INFORMATIONS GENERALES</h6></div>
             <div class ="cadre-body shadow p-3 mb-5 bg-white rounded">
                 {% if(enseignant) %}   
-                <div class="cadre-header mt-5">
-                    <img src="/uploads/images/{{ enseignant.photo }}" class="rounded thumnails" width="150px" height="150px" alt="mon profil">
-                </div>                
-                <ul>
-                    <li><strong>Matricule</strong> : {{ enseignant.matricule }}</li>
-                    <li><strong>Nom</strong> : {{ enseignant.nom }}</li>
-                    <li><strong>Prenom</strong> : {{ enseignant.prenom }}</li>
-                    <li><strong>Email</strong> : {{ enseignant.email }}</li>
-                    <li><strong>Telephone</strong> : {{ enseignant.telephone }}</li>
-                    <li><strong>Adresse </strong> : {{ enseignant.adresse  }}</li>
-                    <li><strong>Grade</strong> : {{ enseignant.grade }}</li>
-                </ul>
+                <div class="cadre-header">
+                    <img src="/uploads/images/{{ enseignant.photo }}" class="img-thumbnail" width="150px" height="150px" alt="mon profil">
+                    <div><a class="btn btn-secondary btn-sm " href="#">Editer mon profil</a></div>                     
+                </div> 
+                <div class="text-center" >
+                    <ul class="navbar-nav"><hr>
+                        <li>{{ enseignant.matricule }}</li><hr>
+                        <li>{{ enseignant.grade }} {{ enseignant.prenom }} {{ enseignant.nom }}</li><hr>
+                        <li>{{ enseignant.email }}</li><hr>
+                        <li>{{ enseignant.telephone }}</li><hr>
+                        <li>{{ enseignant.adresse  }}</li><hr>
+                        <li>{{ enseignant.specialite }}</li>
+                    </ul>
+                </div>               
+                
                 {%endif %}
             </div>      
         </div>

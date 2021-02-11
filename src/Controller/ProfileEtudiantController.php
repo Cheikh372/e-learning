@@ -6,6 +6,7 @@ use App\Entity\Matiere;
 use App\Entity\Inscrire;
 use App\Entity\Support;
 use App\Repository\EtudiantRepository;
+use Symfony\Component\HttpFoundation\Request;
 use App\Repository\MatiereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,20 +51,33 @@ class ProfileEtudiantController extends AbstractController
      * retourne tous les support
      * @Route("/profile/etudiant/support", name ="etudiant_support")
     */
-    public function support(): Response
+    public function support(Request $request): Response
     {
         $user =$this->getUser();
         $etudiant =$this->etudiantRepo->find($user->getidUser());
         $matiereid = $etudiant->getMatiere(); // ligne inscrire
-        
-        foreach($matiereid as $id){
-            $idmatiere =$id->getMatiere(); // une matiere
-            $matieres []= $this->getDoctrine()->getRepository(Matiere::class)->find($idmatiere);
+        $repamat=$this->getDoctrine()->getRepository(Matiere::class);
+
+        if($matiereid){
+            foreach($matiereid as $id){
+                $idmatiere =$id->getMatiere(); // une matiere
+                $matieres []= $repamat->find($idmatiere);
+            }
+            $current_matiere=$matieres[0];
+            // recuperation  des depots
+            $current_support=$matieres[0]->getSupports();
+
+            if($request->query->has('id')){
+                $idmat =$request->query->get('id') ;
+                $current_matiere =$repamat->find($idmat);
+                $current_support =$current_matiere->getSupports();
+            }
         }
-       
         return $this->render('profile_etudiant/support.html.twig',[
             'current_menu'=>'support',
             'matieres'=>$matieres,
+            'current_matiere'=>$current_matiere->getLibelle(),
+            'current_support'=>$current_support,
         ]);
     }
 
@@ -79,6 +93,41 @@ class ProfileEtudiantController extends AbstractController
         return $this->render('profile_etudiant/support.html.twig',[
             'current_submenu'=>'support',
             'current_matiere'=>'matiere'.$id
+        ]);
+    }
+    /**
+     * retourne tous les depots pour une matiere et enseignant 
+     * @Route("/profile/etudiant/depot", name ="etudiant_depot" )
+    */
+    public function depot(Request $request): Response
+    {
+        $user =$this->getUser();
+        $etudiant =$this->etudiantRepo->find($user->getidUser());
+        $matiereid = $etudiant->getMatiere(); // ligne inscrire
+        $repamat=$this->getDoctrine()->getRepository(Matiere::class);
+        
+        // recuperation des matieres
+        if($matiereid){
+            foreach($matiereid as $id){
+                $idmatiere =$id->getMatiere(); // une matiere
+                $matieres []= $repamat->find($idmatiere);
+            }
+            $current_matiere=$matieres[0];
+            // recuperation  des depots
+            $current_depot=$matieres[0]->getDepotTravaux();
+
+            if($request->query->has('id')){
+                $idmat =$request->query->get('id') ;
+                $current_matiere =$repamat->find($idmat);
+                $current_depot =$current_matiere->getDepotTravaux();
+            }
+        }
+       
+       return $this->render('profile_etudiant/depot.html.twig',[
+            'current_menu'=>'depot',
+            'matieres'=>$matieres,
+            'current_matiere'=>$current_matiere->getLibelle(),
+            'current_depot'=>$current_depot,
         ]);
     }
 

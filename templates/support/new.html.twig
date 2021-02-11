@@ -1,11 +1,16 @@
-{% extends 'profile_enseignant/layout.html.twig' %}
+{% extends 'support/index.html.twig' %}
 
-{% block title %}New Support{% endblock %}
-
-{% block bodylayout %}
-    <h1>Ajouter un nouveau</h1>
-
-    {{ include('support/_form.html.twig') }}
-
-    <a href="{{ path('support_index') }}">retourner</a>
+{% block title %}ajouter un support{% endblock %}
+   
+{%block partieSupport %} 
+    <div class ="cadre-header">Ajouter un nouveau Support</div>   
+    <div class ="cadre-body shadow p-3 mb-2 bg-white rounded">
+        {{ include('support/_form.html.twig') }}
+    </div>
+        <a href="{{ path('support_index') }}">retourner</a>
 {% endblock %}
+
+    
+
+    
+

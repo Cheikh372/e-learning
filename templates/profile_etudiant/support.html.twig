@@ -8,16 +8,15 @@
             <div class="cadre-header">Liste des Matieres</div>
             <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
                 {% if(matieres) %}
-                <ul class="nav">
+                <div class="list-group">
                     {% for matiere in matieres %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('etudiant_support_matiere', {'id': matiere.id}) }}">{{ matiere.libelle }}</a>
-                        </li>
-                    {%endfor%}
-                </ul> 
+                        <a class="list-group-item list-group-item-action {%if current_matiere==matiere.libelle %} active {%endif%}" href="{{ path('etudiant_support', {'id': matiere.id}) }}">{{ matiere.libelle }}</a>
+                    {%endfor%} 
+                </div>  
             </div>
         </div>
         <div class="col-8">
+            <div class="cadre-header">Mes Supports de Cours <h6>{{current_matiere }}</h6> </div>
             <div class="cadre-body shadow p-3 mb-5 bg-white rounded">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -33,15 +32,24 @@
                         <a class="nav-link" href="#">Autres</a>
                     </li>
                 </ul>
-                <table class="table table-striped table-hover">
+                <table class="table table-sm p-2 table-hover">
                     <thead>                   
                         <th>Titre</th>
                         <th>Description</th>
                         <th>Telecharger</th>
                     </thead>
                     <tbody>
-
-                    </tbody>
+                        {% for support in current_support %}
+                        <tr>
+                            <td>{{support.titre }}</td>
+                            <td>{{support.description  }}</td>
+                            <td>{{support.nomfichier  }}</td>
+                        </tr>
+                        {%else%} 
+                        <tr >
+                            <td class="text-center" colspan="3">Pas de Support</td></tr> 
+                        {%endfor%}
+                    </tbody>  
                     
                 </table>
             </div>
